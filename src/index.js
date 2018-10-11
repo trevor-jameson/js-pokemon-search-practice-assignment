@@ -2,13 +2,28 @@
 document.addEventListener("DOMContentLoaded", function() {
   //pokemons is a variable imported from db.json via index.html as a script tag
   console.log(pokemons)
+  // let matchedPokemon = search()
+  //
+  //
+  //   function displayAll (pokeArray) {
+  //     pokeArray.forEach(function(elem){
+  //       render(elem);
+  //     })
+  //
+  //     displayAll(matchedPokemon);
+  //
+  // }
 
-  render(pokemons[0])
-  search()
+
+  search();
+
+
 })
 
-function render(pokeData) {
 
+
+function render(pokeData) {
+  // debugger;
   //bulbasaur pokemon container
   let pokemon = document.createElement("div");
   pokemon.className = "pokemon-container";
@@ -51,12 +66,16 @@ function render(pokeData) {
   flip.dataset.action="flip-image";
   flip.innerText = "flip card";
 
-  // flip.addEventListener('click', () => {
-  //   let pic = document.querySelector(`[data-pokename=\"${pokeData.name}\"]`);
-  //   if(pic.src === pokeData.sprites.front){
-  //     pic.src === pokeData.sprites.back
-  //   }
-  // })
+  flip.addEventListener('click', () => {
+    let pic = document.querySelector(`[data-pokename=\"${pokeData.name}\"]`).parentElement.children[1].children[0].children[0];
+    // debugger;
+    if(pic.src === pokeData.sprites.front){
+      pic.src = pokeData.sprites.back;
+    }
+    else{
+      pic.src = pokeData.sprites.front;
+    }
+  })
 
 
   //header is first in frame
@@ -102,7 +121,12 @@ function search() {
   let form = document.querySelector("#pokemon-search-form")
   form.addEventListener('keyup', () => {
 
-    console.log(filter(form.children[0].value))
+    let filtered = filter(form.children[0].value);
+    let resetList = document.querySelector("#pokemon-container > div");
+    resetList.innerHTML = "";
+    filtered.forEach(function(ele){
+      render(ele);
+    });
   })
 }
 
